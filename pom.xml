@@ -307,6 +307,11 @@
             <artifactId>github-organization-folder</artifactId>
             <version>1.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.coravy.hudson.plugins.github</groupId>
+            <artifactId>github</artifactId>
+            <version>1.26.0</version>
+        </dependency>
 
         <!-- Other -->
         <dependency>
