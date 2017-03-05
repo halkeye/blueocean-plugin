@@ -57,8 +57,7 @@ RUN apt-get update -qqy \
 #=============================================
 # Phantom JS
 #=============================================
-RUN wget --no-verbose https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz -O /opt/nodejs.tar.xz
-curl -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+RUN wget --no-verbose -O - -L https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
         | tar -xj --strip-components=1 -C /usr/local
 
 #========================================
