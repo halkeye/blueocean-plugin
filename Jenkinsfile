@@ -13,8 +13,10 @@ node {
     docker.image('blueocean_build_env').inside {
       withEnv(["HOME=${env.WORKSPACE}", 'GIT_COMMITTER_EMAIL=me@hatescake.com','GIT_COMMITTER_NAME=Hates','GIT_AUTHOR_NAME=Cake','GIT_AUTHOR_EMAIL=hates@cake.com']) {
         try {
-          sh 'npm --prefix ./blueocean-core-js install'
-          sh 'npm --prefix ./blueocean-core-js run gulp'
+          dir ('./blueocean-core-js') {
+            sh 'npm install'
+            sh 'npm run gulp'
+          }
           sh "mvn clean install -B -DcleanNode -Dmaven.test.failure.ignore -s settings.xml -Dmaven.artifact.threads=30"
           sh "node ./bin/checkdeps.js"
           sh "node ./bin/checkshrinkwrap.js"
