@@ -2,6 +2,7 @@ FROM ubuntu:16.04
 
 ENV MAVEN_VERSION 3.3.3
 ENV NODE_VERSION 6.4.0
+ENV UID 1000
 
 USER root
 
@@ -52,7 +53,7 @@ RUN apt-get update -qqy \
 #========================================
 # Add normal user with passwordless sudo
 #========================================
-RUN sudo useradd bouser --shell /bin/bash --create-home \
+RUN sudo useradd bouser -u $UID --shell /bin/bash --create-home \
   && sudo usermod -a -G sudo bouser \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'bouser:secret' | chpasswd
