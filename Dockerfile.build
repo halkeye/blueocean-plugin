@@ -54,7 +54,7 @@ RUN apt-get update -qqy \
 #========================================
 # Add normal user with passwordless sudo
 #========================================
-RUN sudo useradd bouser -u $UID -g $GID --shell /bin/bash --create-home \
+RUN sudo useradd bouser -u $UID --shell /bin/bash --create-home \
   && sudo usermod -a -G sudo bouser \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'bouser:secret' | chpasswd
