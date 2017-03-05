@@ -28,7 +28,7 @@ node {
           currentBuild.result = "FAILURE"
         } finally {
           sendhipchat()
-          // deleteDir()
+          deleteDir()
         }
       }
     }
