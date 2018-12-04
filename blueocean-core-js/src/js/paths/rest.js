@@ -37,9 +37,18 @@ export const RestPaths = {
         return `${this.pipeline(organization, pipeline)}runs/${runId}/`;
     },
 
+    disable(organization, pipeline) {
+        return `${this.apiRoot()}/organizations/${encodeURIComponent(organization)}/pipelines/${this._convertSlashes(pipeline)}/disable`;
+    },
+
+    enable(organization, pipeline) {
+        return `${this.apiRoot()}/organizations/${encodeURIComponent(organization)}/pipelines/${this._convertSlashes(pipeline)}/enable`;
+    },
+
     pipeline(organization, pipeline) {
         return `${this.apiRoot()}/organizations/${encodeURIComponent(organization)}/pipelines/${this._convertSlashes(pipeline)}/`;
     },
+
     branches(organization, pipeline) {
         return `${this.apiRoot()}/organizations/${encodeURIComponent(organization)}/pipelines/${pipeline}/branches/?filter=origin`;
     },

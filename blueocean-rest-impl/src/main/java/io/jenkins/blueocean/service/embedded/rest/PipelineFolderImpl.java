@@ -4,6 +4,7 @@ import com.google.common.collect.Iterables;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.model.AbstractItem;
+import hudson.model.AbstractProject;
 import hudson.model.Item;
 import hudson.model.ItemGroup;
 import io.jenkins.blueocean.commons.ServiceException;
@@ -25,6 +26,7 @@ import org.kohsuke.stapler.json.JsonBody;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -87,6 +89,14 @@ public class PipelineFolderImpl extends BluePipelineFolder {
     }
 
     @Override
+    public Boolean getDisabled() {
+        if (folder instanceof AbstractProject) {
+            return ((AbstractProject) folder).isDisabled();
+        }
+        return false;
+    }
+
+    @Override
     public Collection<BlueActionProxy> getActions() {
         return Collections.emptyList();
     }
@@ -127,6 +137,17 @@ public class PipelineFolderImpl extends BluePipelineFolder {
     @Override
     public BlueFavorite favorite(@JsonBody BlueFavoriteAction favoriteAction) {
         throw new ServiceException.MethodNotAllowedException("Cannot favorite a folder");
+    }
+
+    @Override
+    public void enable() throws IOException {
+        throw new ServiceException.MethodNotAllowedException("Cannot enable a folder");
+
+    }
+
+    @Override
+    public void disable() throws IOException {
+        throw new ServiceException.MethodNotAllowedException("Cannot disable a folder");
     }
 
     @Override

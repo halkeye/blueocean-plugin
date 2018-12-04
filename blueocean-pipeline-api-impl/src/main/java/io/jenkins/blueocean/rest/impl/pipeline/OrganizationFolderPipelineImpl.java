@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import hudson.model.Item;
 import hudson.model.Queue;
+import io.jenkins.blueocean.commons.ServiceException;
 import io.jenkins.blueocean.commons.ServiceException.UnexpectedErrorException;
 import io.jenkins.blueocean.rest.Navigable;
 import io.jenkins.blueocean.rest.Reachable;
@@ -249,6 +250,24 @@ public abstract class OrganizationFolderPipelineImpl extends BlueOrganizationFol
     public BlueFavorite favorite(@JsonBody BlueFavoriteAction favoriteAction) {
         return null;
     }
+
+    @Override
+    public void enable() throws IOException {
+        throw new ServiceException.MethodNotAllowedException("Cannot enable a folder");
+
+    }
+
+    @Override
+    public void disable() throws IOException {
+        throw new ServiceException.MethodNotAllowedException("Cannot disable a folder");
+    }
+
+
+    @Override
+    public Boolean getDisabled() {
+        return false;
+    }
+
 
     @Override
     public Map<String, Boolean> getPermissions() {

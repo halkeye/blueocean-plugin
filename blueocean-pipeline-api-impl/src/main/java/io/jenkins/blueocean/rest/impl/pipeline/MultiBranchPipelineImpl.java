@@ -4,10 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
 import hudson.Extension;
-import hudson.model.Item;
-import hudson.model.Job;
-import hudson.model.Result;
-import hudson.model.Run;
+import hudson.model.*;
 import io.jenkins.blueocean.commons.ServiceException;
 import io.jenkins.blueocean.rest.Navigable;
 import io.jenkins.blueocean.rest.Reachable;
@@ -40,6 +37,7 @@ import jenkins.branch.MultiBranchProject;
 import org.kohsuke.stapler.json.JsonBody;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +84,26 @@ public class MultiBranchPipelineImpl extends BlueMultiBranchPipeline {
         }
         FavoriteUtil.toggle(favoriteAction, job);
         return new FavoriteImpl(new BranchImpl(organization, job, getLink().rel("branches")), getLink().rel("favorite"));
+    }
+
+    @Override
+    public void enable() throws IOException {
+        Collection<Job> jobs = mbp.getAllJobs();
+        for (Job job : jobs) {
+            if (job instanceof AbstractProject && getPermissions().getOrDefault(BluePipeline.CONFIGURE_PERMISSION, Boolean.FALSE)) {
+                ((AbstractProject) job).makeDisabled(false);
+            }
+        }
+    }
+
+    @Override
+    public void disable() throws IOException {
+        Collection<Job> jobs = mbp.getAllJobs();
+        for (Job job : jobs) {
+            if (job instanceof AbstractProject && getPermissions().getOrDefault(BluePipeline.CONFIGURE_PERMISSION, Boolean.FALSE)) {
+                ((AbstractProject) job).makeDisabled(true);
+            }
+        }
     }
 
     @Override
@@ -174,6 +192,11 @@ public class MultiBranchPipelineImpl extends BlueMultiBranchPipeline {
     public BlueRun getLatestRun() {
         //For multibranch is a folder that is no run of itself.
         return null;
+    }
+
+    @Override
+    public Boolean getDisabled() {
+        return false;
     }
 
     @Override

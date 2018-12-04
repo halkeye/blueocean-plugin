@@ -8,6 +8,7 @@ import { UrlBuilder } from '@jenkins-cd/blueocean-core-js';
 import { documentTitle } from './DocumentTitle';
 import { observer } from 'mobx-react';
 import { observable, action } from 'mobx';
+import { pipelineService } from '@jenkins-cd/blueocean-core-js';
 
 const logger = logging.logger('io.jenkins.blueocean.dashboard.PipelinePage');
 
@@ -110,6 +111,9 @@ export class PipelinePage extends Component {
                 </h1>
                 <Extensions.Renderer extensionPoint="jenkins.pipeline.detail.header.action" store={this.context.store} pipeline={pipeline} />
                 {classicConfigLink(pipeline)}
+                <a href="#" onClick={() => pipelineService.disableJob(organization, pipeline.fullName)}>
+                    gavin
+                </a>
             </ContentPageHeader>
         ) : (
             <ContentPageHeader pageTabBase={baseUrl} pageTabLinks={pageTabLinks}>

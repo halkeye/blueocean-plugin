@@ -91,6 +91,18 @@ export class PipelineService extends BunkerService {
         return this.getItem(href);
     }
 
+    disableJob(organization: string, pipeline: string) {
+        const url = RestPaths.disable(organization, pipeline);
+        const fetchOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        };
+        return Fetch.fetch(url, { fetchOptions });
+    }
+
     /**
      * Fetches pipeline from the backend and stores it in
      *

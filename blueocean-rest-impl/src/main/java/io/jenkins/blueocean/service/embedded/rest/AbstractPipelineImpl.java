@@ -5,14 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import hudson.Extension;
 import hudson.Functions;
 import hudson.Util;
-import hudson.model.AbstractItem;
-import hudson.model.Item;
-import hudson.model.ItemGroup;
-import hudson.model.Job;
-import hudson.model.ParameterDefinition;
-import hudson.model.ParametersDefinitionProperty;
-import hudson.model.Run;
-import hudson.model.User;
+import hudson.model.*;
 import hudson.plugins.favorite.Favorites;
 import io.jenkins.blueocean.commons.ServiceException;
 import io.jenkins.blueocean.rest.Navigable;
@@ -108,6 +101,14 @@ public class AbstractPipelineImpl extends BluePipeline {
     }
 
     @Override
+    public Boolean getDisabled() {
+        if (job instanceof AbstractProject) {
+            return ((AbstractProject) job).isDisabled();
+        }
+        return false;
+    }
+
+    @Override
     public Long getEstimatedDurationInMillis() {
         return job.getEstimatedDuration();
     }
@@ -148,6 +149,20 @@ public class AbstractPipelineImpl extends BluePipeline {
             }
         });
 
+    }
+
+    @Override
+    public void enable() throws IOException {
+        if (job instanceof AbstractProject && getPermissions(job).getOrDefault(BluePipeline.CONFIGURE_PERMISSION, Boolean.FALSE)) {
+            ((AbstractProject) job).makeDisabled(true);
+        }
+    }
+
+    @Override
+    public void disable() throws IOException {
+        if (job instanceof AbstractProject && getPermissions(job).getOrDefault(BluePipeline.CONFIGURE_PERMISSION, Boolean.FALSE)) {
+            ((AbstractProject) job).makeDisabled(true);
+        }
     }
 
     @Override
